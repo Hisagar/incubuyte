@@ -6,27 +6,52 @@ class AddString{
         int no = add(strNumber);
         System.out.println(no);
     }
-    public static int add(String strNumber){
-        int res=0;
-        if(strNumber!=null){
-            String []splitedString = SplitString(strNumber);
-            res= sumOfString(splitedString);
-        }
-       return res;
-    }
-    public static String[] SplitString(String strNumber){
-        return strNumber.split(",");
-    }
-    public static int sumOfString(String []splitedString){
-        int sum =0;
-        for(int i=0;i<splitedString.length;i++){
+   public static int add(String strNumbers){
+	if(strNumbers.equals("")){
+            return 0;
+	}
+	else{
+            String div = ",";
+            if(strNumbers.matches("//(.*)\n(.*)")){
+                div = Character.toString(strNumbers.charAt(2));
+                strNumbers = strNumbers.substring(4);
+            }
+            String strList[] = splitStr(strNumbers, div);
+            return sumofstr(strList);
+	}
+	}
+
+	private static String[] splitStr(String Allnumbers, String div){
+	    div = div + "|\n";
+	    return Allnumbers.split(div);
+	}
+
+	private static int sumofstr(String[] Allnumbers){
+ 	    int ttl = 0;
+ 	    String ngstr = "";
+
+        for(int i=0;i<Allnumbers.length;i++){
+            String numstr = Allnumbers[i];
             try{
-                int n = Integer.parseInt(splitedString[i]);
-                sum += n;
+                int no = Integer.parseInt(numstr);
+                    if(no < 0){
+        	         if(ngstr.equals(""))
+        		    	ngstr = numstr;
+        		    else
+        		    	ngstr += ("," + numstr);
+                    }
+        	        if(no < 1000)
+		    	        ttl += no;
+                
             }catch(NumberFormatException e){
-                System.out.println("Wrong number!!");
+                System.out.println("Wrong number detected!!");
             }
         }
-        return sum;
+
+		if(!ngstr.equals("")){
+			throw new IllegalArgumentException("Negative number detected" + ngstr);
+		}
+
+		return ttl;
     }
 }
