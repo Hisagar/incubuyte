@@ -23,8 +23,8 @@ class AddString{
             try{
                 int n = Integer.parseInt(splitedString[i]);
                 sum += n;
-            }catch(Exception e){
-                
+            }catch(NumberFormatException e){
+                System.out.println("Wrong number!!");
             }
         }
         return sum;
